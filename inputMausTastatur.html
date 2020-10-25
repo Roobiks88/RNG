@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>mousemove demo</title>
+  <style>
+  div {
+    position: absolute; top: 50px; left: 120px; 
+    width: 900px;
+    height: 400px;
+    margin: 10px 50px 10px 10px;
+    background: coral;
+    border: 2px groove;
+    float: right;
+  }
+  p {
+   position: absolute; top: -55px; left: 120px;
+    margin: 0;
+    margin-left: 10px;
+    color: red;
+    width: 1000px;
+    height: 120px;
+    padding-top: 70px;
+    float: left;
+    font-size: 14px;
+  }
+  span {
+    display: block;
+  }
+  
+  .text {
+    position: absolute; top: 500px; left: 120px; 
+    width: 900px;
+    height: 250px;
+    margin: 10px 10px 10px 10px;
+    border: 2px groove;
+    float: right;
+  
+  }
+  
+   .span2 {
+    position: absolute; top: 500px; left: 120px; 
+    margin: 10px 10px 10px 10px;
+    border: 2px groove;
+    float: right;
+  
+  }
+  
+  .button {
+    position: absolute; top: 500px; left: 1032px; 
+    margin: 10px 10px 10px 10px;
+    border: 2px groove;
+    float: right;
+  
+  }
+    .buttont {
+    position: absolute; top: 50px; left: 1030px; 
+    margin: 10px 10px 10px 10px;
+    border: 2px groove;
+    float: right;
+  
+  }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+<body>
+
+<p>
+  <span id="span" style="color:black;font-size:20px;">Hello dear test person. After clicking on "Go" you have 2 minutes to use your mouse and/or keyboard.</span>
+  
+</p>
+<div id="div"></div>
+ <span id="span2" style="color:black;font-size:30px; position: absolute; top: 200px; left: 130px;"> </span>
+<button onclick="setTimeout(timer, 120000);" id="buttont" class="buttont">Go</button>
+ <textarea id="text" class="text" rows="1000000" cols="50"></textarea>
+  <button type="button" id="button" class="button">Get input</button> 
+<script>
+
+
+var list=new Array;
+var binarylist=new Array;
+var start = null;
+
+	$( "div" ).mousemove(function( event ) {
+  var date = Date.now().toString();
+  var length = date.length;
+  var truncatedDate = date.substring(length-3, length);
+  var pageCoords = "( " + event.pageX + ", " + event.pageY + ", " + ", "  + truncatedDate + " )";
+  var clientCoords = "( " + event.clientX + ", " + event.clientY + ","  + truncatedDate + "  )";
+  //$( "span" ).first().text( "( event.pageX, event.pageY, truncateddate ) : " + pageCoords );
+  //$( "span" ).last().text( "( event.clientX, event.clientY ) : " + clientCoords );
+  console.log(clientCoords);
+  list.push(truncatedDate);
+  list.push(event.clientX);
+  list.push(event.clientY);
+
+});
+
+$(document).keypress(function(event){
+	console.log (event.key);
+	list.push(event.key);s
+});
+
+    $(document).keydown(function (e) {
+        if (!start) {//checking is a new user input
+            start = $.now();
+        }
+    }).keyup(function (e) {
+        var timeElapsed = $.now() - start;
+        start = null;//start the next  timing tracking
+		 console.log(timeElapsed);
+		 list.push(timeElapsed);       
+    });
+	
+$(document).ready(function(){
+  $("button").click(function(){
+	document.getElementById("text").innerHTML = list;
+  });
+});
+
+// timer
+function timer() {
+	$('#div').remove();
+	$('#buttont').remove();
+	$('#span').remove();
+	alert('Time is up!');
+	$("#span2").text("Thank you for participating. Please do not forget to send me your results!");
+  
+}
+	
+</script>
+ 
+</body>
+</html>
